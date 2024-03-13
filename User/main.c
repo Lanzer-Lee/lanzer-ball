@@ -2,20 +2,24 @@
 #include "Delay.h"
 #include "IIC.h"
 #include "motor.h"
+#include "Serial.h"
+#include "LED.h"
+#include "Key.h"
 
 void set_up(void){
+	Serial_USARTx_Init();
+	LED_Init();
 	IIC_Init();
-	motor_init();
 }
 
 int main(void)
 {
 	set_up();
-	while (1)
-	{
-		set_velocity(10,10,10,10);
-		Delay_ms(500);
-		set_velocity(-10,-10,-10,-10);
-		Delay_ms(500);
+	while (1){
+		if(Serial_RxFlag==1){
+			Serial_SendString(USART1,Serial_RxPacket);
+			Serial_SendString(USART3,Serial_RxPacket);
+			Serial_RxFlag=0;
+		}		
 	}
 }

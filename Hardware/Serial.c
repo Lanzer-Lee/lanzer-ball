@@ -1,11 +1,18 @@
 #include "Serial.h"
 
+/*
+USART1: PA9->TX, PA10->RX
+USART2: PA2->TX, PA3->RX
+USART3: PB10->TX, PB11->RX
+*/
+
 char Serial_RxPacket[100];				
 uint8_t Serial_RxFlag;					
 uint8_t motion_set[MOTION_NUM]={FORWARD,BACKWARD,LEFT,RIGHT,UP,DOWN,STOP};
 
 /* init function*/
 void Serial_USART1_Init(int bound){
+	/*communicate with master board*/
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -36,7 +43,32 @@ void Serial_USART1_Init(int bound){
 	USART_Cmd(USART1, ENABLE);							
 }
 
+void Serial_USART2_Init(int bound){
+	/*communicate with digital servo*/
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);			
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	USART_InitTypeDef USART_InitStructure;				
+	USART_InitStructure.USART_BaudRate = bound;			
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;	
+	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;	
+	USART_InitStructure.USART_Parity = USART_Parity_No;		
+	USART_InitStructure.USART_StopBits = USART_StopBits_1;	
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;		
+	USART_Init(USART2, &USART_InitStructure);
+	USART_Cmd(USART2, ENABLE);
+}
+
 void Serial_USART3_Init(int bound){
+	/* ~ Dedicated to Anran Zhang ~ */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -61,6 +93,7 @@ void Serial_USART3_Init(int bound){
 
 void Serial_USARTx_Init(void){
 	Serial_USART1_Init(115200);
+	Serial_USART2_Init(115200);
 	Serial_USART3_Init(115200);
 	
 }
@@ -100,19 +133,6 @@ void Serial_SendNumber(USART_TypeDef* USARTx,uint32_t Number, uint8_t Length){
 	}
 }
 
-/*USART3 function*/
-void Serial_USART3_SendByte(uint8_t Byte){
-	USART_SendData(USART3, Byte);		
-	while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);	
-}
-
-void Serial_USART3_SendString(char *String){
-	uint8_t i;
-	for (i = 0; String[i] != '\0'; i ++){
-		Serial_USART3_SendByte(String[i]);	
-	}
-}
-
 /*USART1 function*/
 void Serial_USART1_SendByte(uint8_t Byte){
 	USART_SendData(USART1, Byte);		
@@ -137,6 +157,60 @@ void Serial_USART1_SendNumber(uint32_t Number, uint8_t Length){
 	uint8_t i;
 	for (i = 0; i < Length; i ++){
 		Serial_USART1_SendByte(Number / Serial_Pow(10, Length - i - 1) % 10 + '0');
+	}
+}
+
+/*USART2 function*/
+void Serial_USART2_SendByte(uint8_t Byte){
+	USART_SendData(USART2, Byte);		
+	while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);	
+}
+
+void Serial_USART2_SendString(char *String){
+	uint8_t i;
+	for (i = 0; String[i] != '\0'; i ++){
+		Serial_USART2_SendByte(String[i]);		
+	}
+}
+
+void Serial_USART2_SendArray(uint8_t *Array, uint16_t Length){
+	uint16_t i;
+	for (i = 0; i < Length; i ++){
+		Serial_USART2_SendByte(Array[i]);	
+	}
+}
+
+void Serial_USART2_SendNumber(uint32_t Number, uint8_t Length){
+	uint8_t i;
+	for (i = 0; i < Length; i ++){
+		Serial_USART2_SendByte(Number / Serial_Pow(10, Length - i - 1) % 10 + '0');
+	}
+}
+
+/*USART3 function*/
+void Serial_USART3_SendByte(uint8_t Byte){
+	USART_SendData(USART3, Byte);		
+	while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);	
+}
+
+void Serial_USART3_SendString(char *String){
+	uint8_t i;
+	for (i = 0; String[i] != '\0'; i ++){
+		Serial_USART3_SendByte(String[i]);	
+	}
+}
+
+void Serial_USART3_SendArray(uint8_t *Array, uint16_t Length){
+	uint16_t i;
+	for (i = 0; i < Length; i ++){
+		Serial_USART3_SendByte(Array[i]);	
+	}
+}
+
+void Serial_USART3_SendNumber(uint32_t Number, uint8_t Length){
+	uint8_t i;
+	for (i = 0; i < Length; i ++){
+		Serial_USART3_SendByte(Number / Serial_Pow(10, Length - i - 1) % 10 + '0');
 	}
 }
 

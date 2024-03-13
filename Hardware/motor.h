@@ -25,5 +25,9 @@ uint16_t read_voltage(void);
 void read_velocity(void);
 void set_velocity(int8_t left_forward,int8_t right_forward,int8_t left_back,int8_t right_back);
 void set_velocity_auto(void);
+void standard_forward(int8_t motor_velocity);
+void standard_backward(int8_t motor_velocity);
+void standard_left(int8_t motor_velocity);
+void standard_right(int8_t motor_velocity);
 
 #endif

@@ -32,3 +32,19 @@ void set_velocity(int8_t left_forward,int8_t right_forward,int8_t left_back,int8
 void set_velocity_auto(void){
     IIC_Send_Bytes(CAM_I2C_ADDRESS,MOTOR_FIXED_SPEED_ADDR,(uint8_t*)velocity,4);
 }
+
+void standard_forward(int8_t motor_velocity){
+    set_velocity(motor_velocity,motor_velocity,motor_velocity,motor_velocity);
+}
+
+void standard_backward(int8_t motor_velocity){
+    set_velocity(-motor_velocity,-motor_velocity,-motor_velocity,-motor_velocity);
+}
+
+void standard_left(int8_t motor_velocity){
+    set_velocity(motor_velocity,-motor_velocity,-motor_velocity,motor_velocity);
+}
+
+void standard_right(int8_t motor_velocity){
+    set_velocity(-motor_velocity,motor_velocity,motor_velocity,-motor_velocity);
+}
