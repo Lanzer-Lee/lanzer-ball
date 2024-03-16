@@ -723,6 +723,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\motor.h</FilePath>
             </File>
+            <File>
+              <FileName>servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\servo.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

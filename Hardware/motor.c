@@ -52,3 +52,12 @@ void standard_right(int8_t motor_velocity){
 void standard_stop(void){
     set_velocity(0,0,0,0);
 }
+
+void motor_data_process(void){
+    uint8_t i=0;
+    for(i=0;i<4;i++){
+        velocity[i]=(Serial_RxPacket[4*i+2]-'0')*100+(Serial_RxPacket[4*i+3]-'0')*10+Serial_RxPacket[4*i+4]-'0';
+        if(Serial_RxPacket[4*i+1]=='1')
+        velocity[i]=-velocity[i];
+    }
+}

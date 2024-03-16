@@ -2,6 +2,7 @@
 #define __MOTOR_H
 
 #include "IIC.h"
+#include "Serial.h"
 
 #define CAM_I2C_ADDRESS             0x34
 #define MOTOR_TYPE_ADDR             0x14
@@ -30,5 +31,6 @@ void standard_backward(int8_t motor_velocity);
 void standard_left(int8_t motor_velocity);
 void standard_right(int8_t motor_velocity);
 void standard_stop(void);
+void motor_data_process(void);
 
 #endif

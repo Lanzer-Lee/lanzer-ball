@@ -36,3 +36,4 @@
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\main.o: .\Hardware\LED.h
+.\objects\main.o: .\Hardware\servo.h

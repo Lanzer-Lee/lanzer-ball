@@ -32,3 +32,6 @@
 .\objects\motor.o: .\Library\misc.h
 .\objects\motor.o: .\System\sys.h
 .\objects\motor.o: .\System\Delay.h
+.\objects\motor.o: Hardware\Serial.h
+.\objects\motor.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\motor.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

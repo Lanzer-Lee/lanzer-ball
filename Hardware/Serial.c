@@ -51,11 +51,11 @@ void Serial_USART2_Init(int bound){
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);			
+	GPIO_Init(GPIOA, &GPIO_InitStructure);			
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	USART_InitTypeDef USART_InitStructure;				
 	USART_InitStructure.USART_BaudRate = bound;			
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;	
@@ -68,7 +68,6 @@ void Serial_USART2_Init(int bound){
 }
 
 void Serial_USART3_Init(int bound){
-	/* ~ Dedicated to Anran Zhang ~ */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -116,6 +115,13 @@ void Serial_SendString(USART_TypeDef* USARTx,char *String){
 	uint8_t i;
 	for (i = 0; String[i] != '\0'; i ++){
 		Serial_SendByte(USARTx,String[i]);	
+	}
+}
+
+void Serial_SendString_Length(USART_TypeDef* USARTx,char *String,uint8_t len){
+	uint8_t i=0;
+	for(i=0;i<len;i++){
+		Serial_SendByte(USARTx,String[i]);
 	}
 }
 
@@ -250,14 +256,11 @@ void USART1_IRQHandler(void){
 				Serial_RxPacket[pRxPacket] = RxData;
 				pRxPacket ++;		
 			}
-			if(Serial_RxFlag == 0 && instruction_in_motionset(RxData)){
+			if(Serial_RxFlag == 0 && RxData=='@'){
+				RxState = 1;
 				pRxPacket = 0;
-				Serial_RxPacket[pRxPacket]='@';
-				pRxPacket++;
 				Serial_RxPacket[pRxPacket] = RxData;
 				pRxPacket++;
-				Serial_RxPacket[pRxPacket] = '\0';
-				Serial_RxFlag = 1;
 			}
 		}
 		else if (RxState == 1){

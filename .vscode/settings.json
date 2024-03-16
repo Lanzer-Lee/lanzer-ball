@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "include.h": "c",
-        "iic.h": "c"
+        "iic.h": "c",
+        "servo.h": "c",
+        "motor.h": "c"
     }
 }
