@@ -15,6 +15,7 @@
 #define MOTOR_TYPE_N20              0x03
 #define MOTOR_TYPE_JGB37            0x04
 #define MOTOR_NUM                   4
+#define MOTOR_FLAG  '@'
 
 extern uint8_t voltage[];
 extern uint32_t encoder_total[];

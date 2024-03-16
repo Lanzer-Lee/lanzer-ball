@@ -4,6 +4,8 @@
 #include "stm32f10x.h"                  
 #include <stdio.h>
 #include <stdarg.h>
+#include "servo.h"
+#include "motor.h"
 
 #define MOTION_NUM 7
 #define FORWARD 'w'
@@ -13,6 +15,7 @@
 #define UP ' '
 #define DOWN 'x'
 #define STOP 'p'
+#define END_FLAG    '!'
 
 extern char Serial_RxPacket[];
 extern uint8_t Serial_RxFlag;

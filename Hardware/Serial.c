@@ -51,11 +51,11 @@ void Serial_USART2_Init(int bound){
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);			
+	GPIO_Init(GPIOA, &GPIO_InitStructure);			
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	USART_InitTypeDef USART_InitStructure;				
 	USART_InitStructure.USART_BaudRate = bound;			
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;	
@@ -244,24 +244,15 @@ void USART1_IRQHandler(void){
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET){
 		uint8_t RxData = USART_ReceiveData(USART1);			
 		if (RxState == 0){
-			if (Serial_RxFlag == 0  && RxData == '#'){
+			if (Serial_RxFlag == 0  && (RxData == SERVO_FLAG || RxData==MOTOR_FLAG)){
 				RxState = 1;			
 				pRxPacket = 0;
 				Serial_RxPacket[pRxPacket] = RxData;
 				pRxPacket ++;		
 			}
-			if(Serial_RxFlag == 0 && instruction_in_motionset(RxData)){
-				pRxPacket = 0;
-				Serial_RxPacket[pRxPacket]='@';
-				pRxPacket++;
-				Serial_RxPacket[pRxPacket] = RxData;
-				pRxPacket++;
-				Serial_RxPacket[pRxPacket] = '\0';
-				Serial_RxFlag = 1;
-			}
 		}
 		else if (RxState == 1){
-			if (RxData == '!'){
+			if (RxData == END_FLAG){
 				RxState = 0;
 				Serial_RxPacket[pRxPacket] = RxData;
 				pRxPacket ++;		

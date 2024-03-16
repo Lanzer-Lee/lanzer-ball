@@ -873,8 +873,8 @@ I (.\Library\misc.h)(0x4D783BB4)
 I (Hardware\OLED_Font.h)(0x61683CC9)
 F (.\Hardware\OLED.h)(0x616ED05A)()
 F (.\Hardware\OLED_Font.h)(0x61683CC9)()
-F (.\Hardware\Serial.c)(0x65EFFD7A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-ID:\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="536" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\serial.o --omf_browse .\objects\serial.crf --depend .\objects\serial.d)
-I (Hardware\Serial.h)(0x65EFFD7A)
+F (.\Hardware\Serial.c)(0x65F502E8)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-ID:\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="536" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\serial.o --omf_browse .\objects\serial.crf --depend .\objects\serial.d)
+I (Hardware\Serial.h)(0x65F13088)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
@@ -905,7 +905,7 @@ I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x60252376)
-F (.\Hardware\Serial.h)(0x65EFFD7A)()
+F (.\Hardware\Serial.h)(0x65F13088)()
 F (.\Hardware\IIC.c)(0x65EF1515)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-ID:\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="536" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\iic.o --omf_browse .\objects\iic.crf --depend .\objects\iic.d)
 I (Hardware\IIC.h)(0x65EF1510)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
@@ -973,7 +973,7 @@ I (.\Library\misc.h)(0x4D783BB4)
 I (.\System\sys.h)(0x65EEF78F)
 I (.\System\Delay.h)(0x6130920D)
 F (.\Hardware\motor.h)(0x65F04FF4)()
-F (.\User\main.c)(0x65F11CAF)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-ID:\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="536" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\User\main.c)(0x65F58EB6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware --no-multibyte-chars-ID:\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="536" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
@@ -1006,7 +1006,7 @@ I (.\System\Delay.h)(0x6130920D)
 I (.\Hardware\IIC.h)(0x65EF1510)
 I (.\System\sys.h)(0x65EEF78F)
 I (.\Hardware\motor.h)(0x65F04FF4)
-I (.\Hardware\Serial.h)(0x65EFFD7A)
+I (.\Hardware\Serial.h)(0x65F13088)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x60252376)
 I (.\Hardware\LED.h)(0x615AC609)
