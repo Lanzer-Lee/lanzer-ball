@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Communication Era
 ## v1.0
 Add IIC to control motor driver board and USART to communicate with other modules
@@ -11,18 +10,5 @@ Add openmv, valve driver and control lab
 # Cybernetics Era
 ## v2.0
 ?
-=======
-# v1.0
-Add IIC to control motor driver board and USART to communicate with other modules
 
-# v1.1
-Add motor control board communicating with master board USART3 by USART1
-
-# v1.2
-Add servo communicating with motor control board by USART2
-
-# v1.3
-~Add openmv to find ball auto ~(have not finished)
-
->>>>>>> 2a64fec73a690f72a699a41bd6385fb99b33908e
 
