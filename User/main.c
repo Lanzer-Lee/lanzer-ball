@@ -5,6 +5,7 @@
 #include "Serial.h"
 #include "LED.h"
 #include "servo.h"
+#include "valve.h"
 
 void set_up(void){
 	Serial_USARTx_Init();
@@ -12,6 +13,7 @@ void set_up(void){
 	IIC_Init();
 	motor_init();
 	servo_init();
+	valve_init();
 }
 
 int main(void)
@@ -27,6 +29,10 @@ int main(void)
 			if(Serial_RxPacket[0]=='#'){
 				servo_data_process();
 				servo_send_cmd(servo_id,servo_time,servo_angle);
+			}
+			if(Serial_RxPacket[0]=='$'){
+				valve_data_process();
+				hit_ball(hit_time);
 			}
 			Serial_RxFlag=0;
 		}

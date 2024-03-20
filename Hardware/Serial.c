@@ -8,7 +8,6 @@ USART3: PB10->TX, PB11->RX
 
 char Serial_RxPacket[100];				
 uint8_t Serial_RxFlag;					
-uint8_t motion_set[MOTION_NUM]={FORWARD,BACKWARD,LEFT,RIGHT,UP,DOWN,STOP};
 
 /* init function*/
 void Serial_USART1_Init(int bound){
@@ -236,31 +235,20 @@ void Serial_Printf(char *format, ...){
 }
 
 /* interuption function*/
-uint8_t instruction_in_motionset(uint8_t instruction){
-	uint8_t i;
-	for(i=0;i<MOTION_NUM;i++){
-		if(instruction==motion_set[i]) return 1;
-	}
-	return 0;
-}
-
 void USART1_IRQHandler(void){
 	static uint8_t RxState = 0;		
 	static uint8_t pRxPacket = 0;	
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET){
-		uint8_t RxData = USART_ReceiveData(USART1);			
+		uint8_t RxData = USART_ReceiveData(USART1);	
+		if(RxData==BRAKE){
+			standard_stop();
+		}		
 		if (RxState == 0){
-			if (Serial_RxFlag == 0  && RxData == '#'){
+			if (Serial_RxFlag == 0  && (RxData == '#'||RxData=='@'||RxData=='$')){
 				RxState = 1;			
 				pRxPacket = 0;
 				Serial_RxPacket[pRxPacket] = RxData;
 				pRxPacket ++;		
-			}
-			if(Serial_RxFlag == 0 && RxData=='@'){
-				RxState = 1;
-				pRxPacket = 0;
-				Serial_RxPacket[pRxPacket] = RxData;
-				pRxPacket++;
 			}
 		}
 		else if (RxState == 1){

@@ -3,6 +3,7 @@
 uint8_t voltage[3]={0};
 uint32_t encoder_total[MOTOR_NUM]={0};
 int8_t velocity[MOTOR_NUM]={0};
+int8_t brake_cmd[MOTOR_NUM]={0};
 
 void motor_init(void){
     int8_t motor_type=MOTOR_TYPE_JGB37;
@@ -50,7 +51,7 @@ void standard_right(int8_t motor_velocity){
 }
 
 void standard_stop(void){
-    set_velocity(0,0,0,0);
+    IIC_Send_Bytes(CAM_I2C_ADDRESS,MOTOR_FIXED_SPEED_ADDR,brake_cmd,4);
 }
 
 void motor_data_process(void){

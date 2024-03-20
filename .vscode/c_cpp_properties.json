@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "f:\\Grade 3 Spring\\robocup\\lanzer_motor\\Start",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_motor\\Library",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_motor\\User",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_motor\\System",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_motor\\Hardware",
+                "f:\\lanzer-motor\\Start",
+                "f:\\lanzer-motor\\Library",
+                "f:\\lanzer-motor\\User",
+                "f:\\lanzer-motor\\System",
+                "f:\\lanzer-motor\\Hardware",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
             ],

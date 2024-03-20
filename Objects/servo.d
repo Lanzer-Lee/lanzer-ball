@@ -32,3 +32,8 @@
 .\objects\servo.o: .\Library\misc.h
 .\objects\servo.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\servo.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\servo.o: Hardware\motor.h
+.\objects\servo.o: Hardware\IIC.h
+.\objects\servo.o: .\System\sys.h
+.\objects\servo.o: .\System\Delay.h
+.\objects\servo.o: Hardware\Serial.h

@@ -16,10 +16,12 @@
 #define MOTOR_TYPE_N20              0x02
 #define MOTOR_TYPE_JGB37            0x03
 #define MOTOR_NUM                   4
+#define BRAKE   '*'
 
 extern uint8_t voltage[];
 extern uint32_t encoder_total[];
 extern int8_t velocity[];
+extern int8_t brake_cmd[];
 
 void motor_init(void);
 uint16_t read_voltage(void);
