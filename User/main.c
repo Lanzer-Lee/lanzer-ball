@@ -1,36 +1,46 @@
 #include "stm32f10x.h"                
 #include "Delay.h"
-#include "IIC.h"
 #include "motor.h"
 #include "Serial.h"
-#include "LED.h"
-#include "Key.h"
+#include "openmv.h"
 
 void set_up(void){
 	Serial_USARTx_Init();
-	LED_Init();
-	IIC_Init();
+	set_servo_angle(1,200,2000);
+	Delay_ms(1000);
+}
+
+void demo(void){
+	drop_ball();
+	standard_forward(100,1000);
+	lift_ball();
+	Delay_ms(2000);
+	drop_ball();
+	standard_backward(100,1000);
+	standard_clockwise(100,3000);
+	standard_forward(100,1500);
+	standard_counterclockwise(100,2500);
+	standard_left(100,1000);
+	standard_right(100,1000);
+	standard_backward(100,1000);
+	standard_stop();
 }
 
 int main(void)
 {
 	set_up();
-	Delay_ms(1000);
+	//demo();
 	while (1){
-		/*
-		Serial_SendString(USART3,"@0100010001000100!");
-		Delay_ms(800);
-		Serial_SendString(USART3,"@1100010001001100!");
-		Delay_ms(800);
-		Serial_SendString(USART3,"@1100110011001100!");
-		Delay_ms(800);
-		Serial_SendString(USART3,"@0100110011000100!");
-		Delay_ms(800);
-		*/
-		if(Serial_RxFlag==1){
-			Serial_SendString(USART1,Serial_RxPacket);
-			Serial_SendString(USART3,Serial_RxPacket);
-			Serial_RxFlag=0;
-		}		
+		if(Serial_RxFlag_USART1==1){
+			Serial_SendString(USART1,Serial_RxPacket_USART1);
+			Serial_SendString(USART3,Serial_RxPacket_USART1);
+			Serial_RxFlag_USART1=0;
+		}	
+		if(Serial_RxFlag_USART2==1){
+			Serial_SendString(USART1,Serial_RxPacket_USART2);
+			openmv_data_process();
+			Serial_RxFlag_USART2=0;
+		}	
+		
 	}
 }

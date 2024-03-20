@@ -31,3 +31,9 @@
 .\objects\serial.o: .\Library\misc.h
 .\objects\serial.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\serial.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\serial.o: Hardware\servo.h
+.\objects\serial.o: Hardware\Serial.h
+.\objects\serial.o: .\System\Delay.h
+.\objects\serial.o: Hardware\motor.h
+.\objects\serial.o: Hardware\IIC.h
+.\objects\serial.o: .\System\sys.h

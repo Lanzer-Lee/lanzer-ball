@@ -733,6 +733,26 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\servo.h</FilePath>
             </File>
+            <File>
+              <FileName>openmv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\openmv.c</FilePath>
+            </File>
+            <File>
+              <FileName>openmv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\openmv.h</FilePath>
+            </File>
+            <File>
+              <FileName>valve.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\valve.c</FilePath>
+            </File>
+            <File>
+              <FileName>valve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\valve.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -757,6 +777,21 @@
               <FileName>stm32f10x_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\stm32f10x_it.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Control</GroupName>
+          <Files>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\control.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\control.h</FilePath>
             </File>
           </Files>
         </Group>

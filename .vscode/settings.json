@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "include.h": "c"
+        "include.h": "c",
+        "valve.h": "c",
+        "servo.h": "c"
     }
 }

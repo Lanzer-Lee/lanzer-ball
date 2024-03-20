@@ -6,13 +6,14 @@ USART2: PA2->TX, PA3->RX
 USART3: PB10->TX, PB11->RX
 */
 
-char Serial_RxPacket[100];				
-uint8_t Serial_RxFlag;					
-uint8_t motion_set[MOTION_NUM]={FORWARD,BACKWARD,LEFT,RIGHT,UP,DOWN,STOP};
+char Serial_RxPacket_USART1[100];				
+uint8_t Serial_RxFlag_USART1;	
+char Serial_RxPacket_USART2[100];				
+uint8_t Serial_RxFlag_USART2;				
 
 /* init function*/
 void Serial_USART1_Init(int bound){
-	/*communicate with master board*/
+	/* communicate with computer */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -44,7 +45,7 @@ void Serial_USART1_Init(int bound){
 }
 
 void Serial_USART2_Init(int bound){
-	/*communicate with digital servo*/
+	/* communicate with openmv */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -64,11 +65,19 @@ void Serial_USART2_Init(int bound){
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;	
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;		
 	USART_Init(USART2, &USART_InitStructure);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);			
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);			
+	NVIC_InitTypeDef NVIC_InitStructure;					
+	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;		
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;		
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;		
+	NVIC_Init(&NVIC_InitStructure);	
 	USART_Cmd(USART2, ENABLE);
 }
 
 void Serial_USART3_Init(int bound){
-	/* ~ Dedicated to Anran Zhang ~ */
+	/* communicate with motor control board */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -230,40 +239,62 @@ void Serial_Printf(char *format, ...){
 }
 
 /* interuption function*/
-uint8_t instruction_in_motionset(uint8_t instruction){
-	uint8_t i;
-	for(i=0;i<MOTION_NUM;i++){
-		if(instruction==motion_set[i]) return 1;
-	}
-	return 0;
-}
-
 void USART1_IRQHandler(void){
 	static uint8_t RxState = 0;		
 	static uint8_t pRxPacket = 0;	
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET){
 		uint8_t RxData = USART_ReceiveData(USART1);			
 		if (RxState == 0){
-			if (Serial_RxFlag == 0  && (RxData == SERVO_FLAG || RxData==MOTOR_FLAG)){
+			if (Serial_RxFlag_USART1 == 0  && (RxData == SERVO_FLAG || RxData==MOTOR_FLAG ||RxData=='$')){
 				RxState = 1;			
 				pRxPacket = 0;
-				Serial_RxPacket[pRxPacket] = RxData;
+				Serial_RxPacket_USART1[pRxPacket] = RxData;
 				pRxPacket ++;		
 			}
 		}
 		else if (RxState == 1){
 			if (RxData == END_FLAG){
 				RxState = 0;
-				Serial_RxPacket[pRxPacket] = RxData;
+				Serial_RxPacket_USART1[pRxPacket] = RxData;
 				pRxPacket ++;		
-				Serial_RxPacket[pRxPacket] = '\0';
-				Serial_RxFlag = 1;
+				Serial_RxPacket_USART1[pRxPacket] = '\0';
+				Serial_RxFlag_USART1 = 1;
 			}
 			else{
-				Serial_RxPacket[pRxPacket] = RxData;		
+				Serial_RxPacket_USART1[pRxPacket] = RxData;		
 				pRxPacket ++;			
 			}
 		}	
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);		
+	}
+}
+
+void USART2_IRQHandler(void){
+	static uint8_t RxState = 0;		
+	static uint8_t pRxPacket = 0;	
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET){
+		uint8_t RxData = USART_ReceiveData(USART2);			
+		if (RxState == 0){
+			if (Serial_RxFlag_USART2 == 0  && RxData=='('){
+				RxState = 1;			
+				pRxPacket = 0;
+				Serial_RxPacket_USART2[pRxPacket] = RxData;
+				pRxPacket ++;		
+			}
+		}
+		else if (RxState == 1){
+			if (RxData == ')'){
+				RxState = 0;
+				Serial_RxPacket_USART2[pRxPacket] = RxData;
+				pRxPacket ++;		
+				Serial_RxPacket_USART2[pRxPacket] = '\0';
+				Serial_RxFlag_USART2 = 1;
+			}
+			else{
+				Serial_RxPacket_USART2[pRxPacket] = RxData;		
+				pRxPacket ++;			
+			}
+		}	
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);		
 	}
 }

@@ -3,13 +3,14 @@
         {
             "name": "Target 1",
             "includePath": [
-                "f:\\Grade 3 Spring\\robocup\\lanzer_ball\\Start",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_ball\\Library",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_ball\\User",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_ball\\System",
-                "f:\\Grade 3 Spring\\robocup\\lanzer_ball\\Hardware",
+                "f:\\lanzer-ball\\Start",
+                "f:\\lanzer-ball\\Library",
+                "f:\\lanzer-ball\\User",
+                "f:\\lanzer-ball\\System",
+                "f:\\lanzer-ball\\Hardware",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include",
-                "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
+                "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw",
+                "f:\\lanzer-ball\\Control"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",
