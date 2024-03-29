@@ -9,6 +9,6 @@ Add servo communicating with motor control board by USART2
 Add openmv, valve driver and control lab
 # Cybernetics Era
 ## v2.0
-?
+Add PID control template
 
 
