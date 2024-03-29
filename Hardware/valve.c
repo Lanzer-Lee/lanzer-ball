@@ -15,6 +15,7 @@ void valve_init(void){
 
 void valve_data_process(void){
     uint8_t i=0;
+    hit_time=0;
     for(i=1;Serial_RxPacket[i]!='!';i++){
         hit_time=hit_time*10+(Serial_RxPacket[i]-'0');
     }

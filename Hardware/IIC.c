@@ -127,14 +127,41 @@ uint8_t IIC_Read_Bytes(uint8_t address,uint8_t reg,uint8_t *buf,uint8_t len){
         return 1;
     }
     for(i=0;i<len;i++){
-        if(i<len-1) buf[i]=IIC_Read_Byte(1);
+        if(i!=len-1) buf[i]=IIC_Read_Byte(1);
         else buf[i]=IIC_Read_Byte(0);
     }
     IIC_Stop();
     return 0;
 }
 
-uint8_t IIC_Send_Bytes(uint8_t address,uint8_t reg,int8_t *buf,uint8_t len){
+uint8_t IIC_Read_Bytes_Encoder(uint8_t address,uint8_t reg,uint8_t *buf,uint8_t len){
+    uint8_t i;
+    IIC_Start();
+    IIC_Send_Byte((address<<1)|0);
+    if(IIC_Wait_Ack()){
+        IIC_Stop();
+        return 1;
+    }
+    IIC_Send_Byte(reg);
+    if(IIC_Wait_Ack()){
+        IIC_Stop();
+        return 1;
+    }
+    IIC_Start();
+    IIC_Send_Byte((address<<1)|1);
+    if(IIC_Wait_Ack()){
+        IIC_Stop();
+        return 1;
+    }
+    for(i=0;i<len;i++){
+        if(i!=len-1) buf[i]=IIC_Read_Byte(1);
+        else buf[i]=IIC_Read_Byte(0);
+    }
+    IIC_Stop();
+    return 0;
+}
+
+int8_t IIC_Send_Bytes(int8_t address,int8_t reg,int8_t *buf,int8_t len){
     uint8_t i;
     IIC_Start();
     IIC_Send_Byte((address<<1)|0);

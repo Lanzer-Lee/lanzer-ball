@@ -33,6 +33,10 @@ int main(void)
 			if(Serial_RxPacket[0]=='$'){
 				valve_data_process();
 				hit_ball(hit_time);
+				read_mileage();
+				encoder_data_process();
+				printf("encoder1=%ld,endcoder2=%ld,encoder3=%ld,encoder4=%ld \r\n",encoder_total[0],encoder_total[1],encoder_total[3],encoder_total[4]);
+				//printf("voltage=%d\r\n",read_voltage());
 			}
 			Serial_RxFlag=0;
 		}
