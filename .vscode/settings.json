@@ -2,6 +2,11 @@
     "files.associations": {
         "include.h": "c",
         "valve.h": "c",
-        "servo.h": "c"
+        "servo.h": "c",
+        "sys.h": "c",
+        "control.h": "c",
+        "timer.h": "c",
+        "motor.h": "c",
+        "echo.h": "c"
     }
 }

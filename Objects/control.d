@@ -39,3 +39,4 @@
 .\objects\control.o: .\Hardware\motor.h
 .\objects\control.o: .\Hardware\IIC.h
 .\objects\control.o: .\System\sys.h
+.\objects\control.o: .\Control\control.h

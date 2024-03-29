@@ -38,3 +38,5 @@
 .\objects\motor.o: Hardware\servo.h
 .\objects\motor.o: Hardware\Serial.h
 .\objects\motor.o: Hardware\motor.h
+.\objects\motor.o: .\Control\control.h
+.\objects\motor.o: .\Hardware\openmv.h

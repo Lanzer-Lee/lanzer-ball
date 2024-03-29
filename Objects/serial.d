@@ -37,3 +37,5 @@
 .\objects\serial.o: Hardware\motor.h
 .\objects\serial.o: Hardware\IIC.h
 .\objects\serial.o: .\System\sys.h
+.\objects\serial.o: .\Control\control.h
+.\objects\serial.o: .\Hardware\openmv.h

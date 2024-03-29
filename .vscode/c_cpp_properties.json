@@ -8,9 +8,9 @@
                 "f:\\lanzer-ball\\User",
                 "f:\\lanzer-ball\\System",
                 "f:\\lanzer-ball\\Hardware",
+                "f:\\lanzer-ball\\Control",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include",
-                "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw",
-                "f:\\lanzer-ball\\Control"
+                "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

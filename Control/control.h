@@ -10,9 +10,9 @@
 
 #if INCR_LOCT_SELECT
 /*increment PID*/
-#define KP  8.50f
-#define KI  5.00f
-#define KD  0.10f
+#define KP  0.18f
+#define KI  0.00f
+#define KD  0.08f
 #define SMAPLSE_PID_SPEED   50
 #else
 /*position PID*/
@@ -21,6 +21,9 @@
 #define KD  0.50f
 #define SMAPLSE_PID_SPEED   50
 #endif
+
+#define SPEED_UPPER_BOUND   20
+#define SPEED_LOWER_BOUND   -20
 
 typedef struct {
     __IO float SetPoint;
@@ -35,8 +38,11 @@ typedef struct {
 }PID_TypeDef;
 
 extern PID_TypeDef g_speed_pid;
+extern int16_t auto_velocity;
+extern uint8_t PID_Status;
 
 void pid_init(void);
+void set_pid_target(float target);
 int16_t increment_pid_control(PID_TypeDef *PID,float feedback_value);
 int16_t position_pid_control(PID_TypeDef *PID,float feedback_value);
 

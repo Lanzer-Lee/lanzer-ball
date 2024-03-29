@@ -8,7 +8,9 @@ void openmv_data_process(void){
     while(Serial_RxPacket_USART2[i]!=')'){
         target_x=target_x*10+Serial_RxPacket_USART2[i++]-'0';
     }
+    /*
     if(Serial_RxPacket_USART2[1]=='-'){
         target_x=-target_x;
     }
+    */
 }

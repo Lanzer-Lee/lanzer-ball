@@ -152,3 +152,39 @@ uint8_t IIC_Send_Bytes(uint8_t address,uint8_t reg,uint8_t *buf,uint8_t len){
     IIC_Stop();
     return 0;
 }
+
+int32_t IICreadBytes(uint8_t dev, uint8_t reg, uint8_t *data, uint32_t length){
+    uint32_t count = 0;
+    IIC_Start();
+    IIC_Send_Byte(dev);	
+    if(IIC_Wait_Ack() == 1)return 0;
+    IIC_Send_Byte(reg);
+    if(IIC_Wait_Ack() == 1)return 0;
+    IIC_Start();
+    IIC_Send_Byte(dev+1); 
+    if(IIC_Wait_Ack() == 1)return 0;
+    for(count=0; count<length; count++){
+        if(count!=length-1)data[count]=IIC_Read_Byte(1);
+        else  data[count]=IIC_Read_Byte(0);	 
+    }
+    IIC_Stop();
+    return 1;
+}
+
+
+int32_t IICwriteBytes(uint8_t dev, uint8_t reg, uint8_t* data, uint32_t length){
+    uint32_t count = 0;
+    IIC_Start();
+    IIC_Send_Byte(dev);	   
+    if(IIC_Wait_Ack() == 1)return 0;
+    IIC_Send_Byte(reg);   
+    if(IIC_Wait_Ack() == 1)return 0;
+    for(count=0; count<length; count++){
+        IIC_Send_Byte(data[count]);
+        if(IIC_Wait_Ack() == 1)return 0;
+    }
+    IIC_Stop();
+    return 1; 
+}
+
+

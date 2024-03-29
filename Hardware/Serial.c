@@ -38,8 +38,8 @@ void Serial_USART1_Init(int bound){
 	NVIC_InitTypeDef NVIC_InitStructure;					
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;		
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;		
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;		
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		
 	NVIC_Init(&NVIC_InitStructure);							
 	USART_Cmd(USART1, ENABLE);							
 }
@@ -70,8 +70,8 @@ void Serial_USART2_Init(int bound){
 	NVIC_InitTypeDef NVIC_InitStructure;					
 	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;		
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;		
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;		
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;		
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		
 	NVIC_Init(&NVIC_InitStructure);	
 	USART_Cmd(USART2, ENABLE);
 }
@@ -250,6 +250,13 @@ void USART1_IRQHandler(void){
 				pRxPacket = 0;
 				Serial_RxPacket_USART1[pRxPacket] = RxData;
 				pRxPacket ++;		
+			}
+			if (Serial_RxFlag_USART1 == 0  && RxData=='*'){		
+				pRxPacket = 0;
+				Serial_RxPacket_USART1[pRxPacket] = RxData;
+				pRxPacket ++;	
+				Serial_RxPacket_USART1[pRxPacket] ='\0';
+				Serial_RxFlag_USART1 = 1;	
 			}
 		}
 		else if (RxState == 1){

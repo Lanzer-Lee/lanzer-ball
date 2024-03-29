@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include "servo.h"
 #include "motor.h"
+#include "control.h"
 
 #define END_FLAG    '!'
 

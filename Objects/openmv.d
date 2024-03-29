@@ -38,3 +38,5 @@
 .\objects\openmv.o: Hardware\motor.h
 .\objects\openmv.o: Hardware\IIC.h
 .\objects\openmv.o: .\System\sys.h
+.\objects\openmv.o: .\Control\control.h
+.\objects\openmv.o: .\Hardware\openmv.h

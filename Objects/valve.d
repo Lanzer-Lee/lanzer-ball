@@ -38,3 +38,5 @@
 .\objects\valve.o: Hardware\motor.h
 .\objects\valve.o: Hardware\IIC.h
 .\objects\valve.o: .\System\sys.h
+.\objects\valve.o: .\Control\control.h
+.\objects\valve.o: .\Hardware\openmv.h

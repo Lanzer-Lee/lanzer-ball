@@ -339,7 +339,7 @@
               <MiscControls>--no-multibyte-chars</MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware;.\Control</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -752,6 +752,36 @@
               <FileName>valve.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\valve.h</FilePath>
+            </File>
+            <File>
+              <FileName>TIMER.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\TIMER.c</FilePath>
+            </File>
+            <File>
+              <FileName>TIMER.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\TIMER.h</FilePath>
+            </File>
+            <File>
+              <FileName>echo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\echo.c</FilePath>
+            </File>
+            <File>
+              <FileName>echo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\echo.h</FilePath>
+            </File>
+            <File>
+              <FileName>IMU.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\IMU.c</FilePath>
+            </File>
+            <File>
+              <FileName>IMU.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\IMU.h</FilePath>
             </File>
           </Files>
         </Group>

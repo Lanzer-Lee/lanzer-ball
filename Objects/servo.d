@@ -38,3 +38,5 @@
 .\objects\servo.o: .\System\sys.h
 .\objects\servo.o: .\System\Delay.h
 .\objects\servo.o: Hardware\Serial.h
+.\objects\servo.o: .\Control\control.h
+.\objects\servo.o: .\Hardware\openmv.h
