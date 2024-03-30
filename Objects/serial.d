@@ -39,3 +39,6 @@
 .\objects\serial.o: .\System\sys.h
 .\objects\serial.o: .\Control\control.h
 .\objects\serial.o: .\Hardware\openmv.h
+.\objects\serial.o: .\Hardware\IMU.h
+.\objects\serial.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\serial.o: .\Hardware\REG.h

@@ -783,6 +783,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\IMU.h</FilePath>
             </File>
+            <File>
+              <FileName>TOF.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\TOF.c</FilePath>
+            </File>
+            <File>
+              <FileName>TOF.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\TOF.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

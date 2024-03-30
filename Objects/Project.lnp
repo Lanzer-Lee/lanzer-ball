@@ -37,6 +37,7 @@
 ".\objects\timer.o"
 ".\objects\echo.o"
 ".\objects\imu.o"
+".\objects\tof.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\control.o"

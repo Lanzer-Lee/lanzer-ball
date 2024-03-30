@@ -41,3 +41,6 @@
 .\objects\timer.o: .\Hardware\motor.h
 .\objects\timer.o: .\Hardware\IIC.h
 .\objects\timer.o: .\Control\control.h
+.\objects\timer.o: .\Hardware\IMU.h
+.\objects\timer.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\timer.o: .\Hardware\REG.h

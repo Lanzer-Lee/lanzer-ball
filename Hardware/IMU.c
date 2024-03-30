@@ -84,19 +84,19 @@ void IMU_Data_Process(void){
             IMU_Structure.angle[i]=sReg[Roll+i]/32768.0f*180.0f;
         }
         if (s_cDataUpdate & ACC_UPDATE){
-			printf("acc:%.3f %.3f %.3f\r\n", IMU_Structure.accelerate[0], IMU_Structure.accelerate[1], IMU_Structure.accelerate[2]);
+			//printf("acc:%.3f %.3f %.3f\r\n", IMU_Structure.accelerate[0], IMU_Structure.accelerate[1], IMU_Structure.accelerate[2]);
 			s_cDataUpdate &= ~ACC_UPDATE;
 		}
 		if (s_cDataUpdate & GYRO_UPDATE){
-			printf("gyro:%.3f %.3f %.3f\r\n", IMU_Structure.gyro[0], IMU_Structure.gyro[1], IMU_Structure.gyro[2]);
+			//printf("gyro:%.3f %.3f %.3f\r\n", IMU_Structure.gyro[0], IMU_Structure.gyro[1], IMU_Structure.gyro[2]);
 			s_cDataUpdate &= ~GYRO_UPDATE;
 		}
 		if (s_cDataUpdate & ANGLE_UPDATE){
-			printf("angle:%.3f %.3f %.3f\r\n", IMU_Structure.angle[0], IMU_Structure.angle[1], IMU_Structure.angle[2]);
+			//printf("angle:%.3f %.3f %.3f\r\n", IMU_Structure.angle[0], IMU_Structure.angle[1], IMU_Structure.angle[2]);
 			s_cDataUpdate &= ~ANGLE_UPDATE;
 		}
 		if (s_cDataUpdate & MAG_UPDATE){
-		    printf("mag:%d %d %d\r\n", sReg[HX], sReg[HY], sReg[HZ]);
+		    //printf("mag:%d %d %d\r\n", sReg[HX], sReg[HY], sReg[HZ]);
 			s_cDataUpdate &= ~MAG_UPDATE;
 		}
     }

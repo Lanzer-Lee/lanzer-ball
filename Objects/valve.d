@@ -40,3 +40,6 @@
 .\objects\valve.o: .\System\sys.h
 .\objects\valve.o: .\Control\control.h
 .\objects\valve.o: .\Hardware\openmv.h
+.\objects\valve.o: .\Hardware\IMU.h
+.\objects\valve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\valve.o: .\Hardware\REG.h

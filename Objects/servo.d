@@ -40,3 +40,6 @@
 .\objects\servo.o: Hardware\Serial.h
 .\objects\servo.o: .\Control\control.h
 .\objects\servo.o: .\Hardware\openmv.h
+.\objects\servo.o: .\Hardware\IMU.h
+.\objects\servo.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\servo.o: .\Hardware\REG.h

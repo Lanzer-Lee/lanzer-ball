@@ -3,27 +3,27 @@
 
 #include "openmv.h"
 #include "motor.h"
+#include "IMU.h"
 
-#define NOTMID  0
-#define MID     1
-#define INCR_LOCT_SELECT    1
-
-#if INCR_LOCT_SELECT
-/*increment PID*/
-#define KP  0.18f
-#define KI  0.00f
-#define KD  0.08f
+/*pid parameter*/
 #define SMAPLSE_PID_SPEED   50
-#else
-/*position PID*/
-#define KP  10.0f
-#define KI  6.00f
-#define KD  0.50f
-#define SMAPLSE_PID_SPEED   50
-#endif
 
-#define SPEED_UPPER_BOUND   20
-#define SPEED_LOWER_BOUND   -20
+#define KP_POSITION  0.30f
+#define KI_POSITION  0.00f
+#define KD_POSITION  0.00f
+
+#define KP_ANGLE    0.45f
+#define KI_ANGLE    0.00f
+#define KD_ANGLE    0.00f
+
+/*pid bound*/
+#define SPEED_BOUND   20
+
+#define ANGLE_DEADLINE  2
+#define ANGLE_INTERGRAL_BOUND   45
+
+#define POSITION_DEADLINE   3
+#define POSITION_INTERGRAL_BOUND    15
 
 typedef struct {
     __IO float SetPoint;
@@ -37,13 +37,21 @@ typedef struct {
     __IO float PrevError;
 }PID_TypeDef;
 
-extern PID_TypeDef g_speed_pid;
-extern int16_t auto_velocity;
-extern uint8_t PID_Status;
+extern PID_TypeDef position_pid;
+extern PID_TypeDef angle_pid;
+extern int8_t auto_velocity;
+extern uint8_t angle_pid_enable;
+extern uint8_t position_pid_enable;
+extern uint8_t position_master_enable;
+extern uint8_t angle_master_enable;
 
 void pid_init(void);
-void set_pid_target(float target);
-int16_t increment_pid_control(PID_TypeDef *PID,float feedback_value);
-int16_t position_pid_control(PID_TypeDef *PID,float feedback_value);
+void set_pid_target(PID_TypeDef *pid,float target);
+void set_pid_parameter(PID_TypeDef *pid,float kp,float ki,float kd);
+float angle_pid_update(PID_TypeDef *PID,float feedback_value);
+void angle_pid_control(void);
+float position_pid_update(PID_TypeDef *PID,float feedback_value);
+void position_pid_control(void);
+void master_position_control(float feedback_value);
 
 #endif

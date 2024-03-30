@@ -40,3 +40,6 @@
 .\objects\control.o: .\Hardware\IIC.h
 .\objects\control.o: .\System\sys.h
 .\objects\control.o: .\Control\control.h
+.\objects\control.o: .\Hardware\IMU.h
+.\objects\control.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\control.o: .\Hardware\REG.h

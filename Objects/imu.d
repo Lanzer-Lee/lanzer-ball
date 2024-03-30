@@ -42,3 +42,4 @@
 .\objects\imu.o: Hardware\motor.h
 .\objects\imu.o: .\Control\control.h
 .\objects\imu.o: .\Hardware\openmv.h
+.\objects\imu.o: .\Hardware\IMU.h

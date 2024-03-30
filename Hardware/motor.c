@@ -49,6 +49,7 @@ void standard_counterclockwise_fixtime(int8_t motor_velocity,int time){
 
 void standard_stop(void){
     Serial_SendString(USART3,stop_cmd);
+    Delay_ms(1);
     //Serial_SendString(USART1,stop_cmd);
 }
 

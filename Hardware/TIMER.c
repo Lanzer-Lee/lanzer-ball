@@ -1,7 +1,7 @@
 #include "TIMER.h"
 
 void TIM_Init(void){
-    TIM3_Int_Init(149,7199);
+    TIM3_Int_Init(SMAPLSE_PID_SPEED*10-1,7199);
     TIM2_Int_Init(9999,719);
 }
 
@@ -52,13 +52,9 @@ void TIM2_IRQHandler(void){
 void TIM3_IRQHandler(void){
     if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET){
         TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-        if(PID_Status==1){
-            //standard_stop();
-            g_speed_pid.ActualValue=auto_velocity;
-            auto_velocity=increment_pid_control(&g_speed_pid,(float)(target_x));
-            standard_right(auto_velocity);
-            Delay_ms(1);
-        }  
+        angle_pid_control();
+        position_pid_control();
+        master_position_control((float)(openmv_structure.target_x));
     }
 }
 

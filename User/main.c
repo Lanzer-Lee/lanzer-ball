@@ -14,58 +14,44 @@ uint8_t demo_status=0;
 void set_up(void){
 	Serial_USARTx_Init();
 	IIC_Init();
-	set_servo_angle(1,200,2000);
-	Delay_ms(1000);
 	TIM_Init();
 	pid_init();
-	set_pid_target(80);
 	echo_init();
-	IMU_Init();
-	PID_Status=0;
+	//IMU_Init();
+	set_servo_angle(1,200,2000);
+	Delay_ms(1000);	
 }
 
-void loop_demo_aim(void){
-	if(g_speed_pid.SetPoint-2< target_x && target_x <g_speed_pid.SetPoint+2){
-		standard_stop();
-		demo_status=1;
-	} 
-	if(target_x>=g_speed_pid.SetPoint+2) standard_right(10);
-    if(0<=target_x && target_x <=g_speed_pid.SetPoint-2) standard_left(10);
-}
-
-void loop_demo_ack(void){
-	echo_distance=measure_distance();
-	//printf("echo=%f\r\n",echo_distance);
-	if(echo_distance>1.5) standard_forward(10);
-	else{
-		standard_stop();
-		demo_status=2;
-	}
+void debug_command_process(void){
+	if(Serial_RxFlag_USART1==1){
+		if(Serial_RxPacket_USART1[0]=='$'){
+			if(Serial_RxPacket_USART1[1]=='>') position_pid_enable=1;
+			if(Serial_RxPacket_USART1[1]=='<') angle_pid_enable=1;
+			if(Serial_RxPacket_USART1[1]=='0'){
+				position_pid_enable=0;
+				angle_pid_enable=0;
+			}
+			Serial_SendString(USART1,Serial_RxPacket_USART1);
+		}
+		if(Serial_RxPacket_USART1[0]=='@'||Serial_RxPacket_USART1[0]=='#'){
+			Serial_SendString(USART1,Serial_RxPacket_USART1);
+			Serial_SendString(USART3,Serial_RxPacket_USART1);
+		}
+		Serial_RxFlag_USART1=0;
+	}	
 }
 
 int main(void)
 {
 	set_up();
 	while (1){
-		IMU_Data_Process();
-		//if(demo_status==0) loop_demo_aim();	
-		//if(demo_status==1) loop_demo_ack();										
-		if(Serial_RxFlag_USART1==1){
-			PID_Status=0;
-			standard_stop();
-			Delay_ms(2);
-			if(Serial_RxPacket_USART1[0]=='$') PID_Status=1;
-			Serial_SendString(USART1,Serial_RxPacket_USART1);
-			Serial_SendString(USART3,Serial_RxPacket_USART1);
-			Serial_RxFlag_USART1=0;
-		}	
+		//IMU_Data_Process();										
+		debug_command_process();
 		if(Serial_RxFlag_USART2==1){
 			//Serial_SendString(USART1,Serial_RxPacket_USART2);
 			openmv_data_process();
-			//printf("v=%f\r\n",g_speed_pid.ActualValue);
-			//printf("int v=%d\r\n",(int16_t)(g_speed_pid.ActualValue));
+			printf("openmv=%f\r\n",position_pid.Error);
 			Serial_RxFlag_USART2=0;
-		}	
-		
+		}		
 	}
 }

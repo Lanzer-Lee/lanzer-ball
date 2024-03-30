@@ -40,3 +40,6 @@
 .\objects\openmv.o: .\System\sys.h
 .\objects\openmv.o: .\Control\control.h
 .\objects\openmv.o: .\Hardware\openmv.h
+.\objects\openmv.o: .\Hardware\IMU.h
+.\objects\openmv.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\openmv.o: .\Hardware\REG.h
