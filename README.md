@@ -10,5 +10,7 @@ Add openmv, valve driver and control lab
 # Cybernetics Era
 ## v2.0
 Add PID control template
+## v2.1
+Add ultrasonic and IMU
 
 
