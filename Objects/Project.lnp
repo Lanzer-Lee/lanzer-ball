@@ -40,6 +40,7 @@
 ".\objects\tof.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
+".\objects\debug.o"
 ".\objects\control.o"
 --library_type=microlib --strict --scatter ".\Objects\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

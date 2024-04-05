@@ -1,22 +1,20 @@
 #include "openmv.h"
 
-Openmv_TypeDef openmv_structure;
+Openmv_TypeDef openmv;
 
 void openmv_init(void){
-    openmv_structure.target_x=0;
-    openmv_structure.target_y=0;
-    openmv_structure.target_distance=0.0;
+    openmv.x=0;
+    openmv.y=0;
+    openmv.distance=0.0;
 }
 
 void openmv_data_process(void){
-    openmv_structure.target_x=0;
-    uint8_t i=2;
-    while(Serial_RxPacket_USART2[i]!=')'){
-        openmv_structure.target_x=openmv_structure.target_x*10+Serial_RxPacket_USART2[i++]-'0';
+
+}
+
+void openmv_analysis(void){
+    if(Serial_RxFlag_USART2==1){
+        sscanf(Serial_RxPacket_USART2,"(%d,%d,%f)",&openmv.x,&openmv.y,&openmv.distance);
+        Serial_RxFlag_USART2=0;
     }
-    /*
-    if(Serial_RxPacket_USART2[1]=='-'){
-        target_x=-target_x;
-    }
-    */
 }

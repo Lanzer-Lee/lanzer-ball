@@ -40,7 +40,6 @@ void TIM3_Int_Init(uint16_t arr,uint16_t psc){
     NVIC_InitStructure.NVIC_IRQChannelSubPriority=0;
     NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
     NVIC_Init(&NVIC_InitStructure);
-    TIM_Cmd(TIM3,ENABLE);
 }
 
 void TIM2_IRQHandler(void){
@@ -52,9 +51,9 @@ void TIM2_IRQHandler(void){
 void TIM3_IRQHandler(void){
     if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET){
         TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-        angle_pid_control();
         position_pid_control();
-        master_position_control((float)(openmv_structure.target_x));
+        angle_pid_control();
+        //master_position_control((float)(openmv_structure.x));
     }
 }
 

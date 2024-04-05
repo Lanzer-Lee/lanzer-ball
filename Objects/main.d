@@ -45,3 +45,4 @@
 .\objects\main.o: .\Hardware\REG.h
 .\objects\main.o: .\Hardware\TIMER.h
 .\objects\main.o: .\Hardware\echo.h
+.\objects\main.o: User\debug.h

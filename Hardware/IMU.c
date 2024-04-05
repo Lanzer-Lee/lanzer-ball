@@ -62,6 +62,7 @@ static const uint8_t __auchCRCLo[256] = {
 };
 
 IMU_TypeDef IMU_Structure;
+float init_angle_z=0.0;
 
 void IMU_Init(void){
     WitInit(WIT_PROTOCOL_I2C,0x50);
@@ -70,6 +71,18 @@ void IMU_Init(void){
     WitDelayMsRegister(Delayms);
     AutoScanSensor();
     Delay_ms(500);
+    init_angle_z=0.0;
+    IMU_Structure.accelerate[0]=0;
+    IMU_Structure.accelerate[1]=0;
+    IMU_Structure.accelerate[2]=0;
+    IMU_Structure.angle[0]=0;
+    IMU_Structure.angle[1]=0;
+    IMU_Structure.angle[2]=0;
+    IMU_Structure.gyro[0]=0;
+    IMU_Structure.gyro[1]=0;
+    IMU_Structure.gyro[2]=0;
+    IMU_Data_Process();
+    init_angle_z=IMU_Structure.angle[2];
 }
 
 void IMU_Data_Process(void){
@@ -83,6 +96,7 @@ void IMU_Data_Process(void){
             IMU_Structure.gyro[i]=sReg[GX+i]/32768.0f*2000.0f;
             IMU_Structure.angle[i]=sReg[Roll+i]/32768.0f*180.0f;
         }
+        IMU_Structure.angle[2]-=init_angle_z;
         if (s_cDataUpdate & ACC_UPDATE){
 			//printf("acc:%.3f %.3f %.3f\r\n", IMU_Structure.accelerate[0], IMU_Structure.accelerate[1], IMU_Structure.accelerate[2]);
 			s_cDataUpdate &= ~ACC_UPDATE;
