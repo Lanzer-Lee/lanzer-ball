@@ -12,5 +12,8 @@ Add openmv, valve driver and control lab
 Add PID control template
 ## v2.1
 Add ultrasonic and IMU
+## v2.2
+Add anti-windup, closed loop restricted area, upper bound to incremental PID control
 
+Add expert control
 
