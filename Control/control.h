@@ -26,6 +26,10 @@
 #define POSITION_DEADLINE   3
 #define POSITION_INTERGRAL_BOUND    40
 
+#define STRAIGHT    0
+#define HORIZONTAL  1
+#define ROTE        2
+
 typedef struct {
     __IO float SetPoint;
     __IO float ActualValue;
@@ -38,6 +42,8 @@ typedef struct {
     __IO float PrevError;
 }PID_TypeDef;
 
+typedef void (*move_call_back_function)(int8_t velocity);
+
 extern PID_TypeDef position_pid;
 extern PID_TypeDef angle_pid;
 extern int8_t auto_velocity;
@@ -45,6 +51,8 @@ extern uint8_t angle_pid_enable;
 extern uint8_t position_pid_enable;
 extern uint8_t position_expert_enable;
 extern uint8_t angle_expert_enable;
+extern uint8_t pid_enable;
+extern __IO float *feedback_value;
 
 void pid_init(void);
 void set_pid_target(PID_TypeDef *pid,float target);
@@ -55,5 +63,8 @@ float position_pid_update(PID_TypeDef *PID,float feedback_value);
 void position_pid_control(void);
 void position_expert_control(float feedback_value);
 void angle_expert_control(float target,float feedback_value);
+void set_move(uint8_t mode);
+void pid_control(float feedback_value);
+float pid_update(PID_TypeDef *PID,float feedback_value);
 
 #endif

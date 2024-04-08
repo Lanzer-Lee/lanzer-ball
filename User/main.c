@@ -23,11 +23,11 @@ void set_up(void){
 	Delay_ms(1000);	
 }
 
-
-
 int main(void)
 {
 	set_up();
+	set_move(STRAIGHT);
+	openmv_state_transfer(0);
 	while (1){					
 		debug_command_process();
 		openmv_analysis();		

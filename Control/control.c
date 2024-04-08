@@ -2,18 +2,21 @@
 
 PID_TypeDef position_pid;
 PID_TypeDef angle_pid;
+
 int8_t auto_velocity=0;
 
 uint8_t angle_pid_enable=0;
 uint8_t position_pid_enable=0;
 uint8_t position_expert_enable=0;
 uint8_t angle_expert_enable=0;
+uint8_t pid_enable=0;
+__IO float *feedback_value=NULL;
 
-
+static move_call_back_function controlled_move=NULL;
 
 /* pid basic function*/
 void pid_init(void){
-    position_pid.SetPoint=80;
+    position_pid.SetPoint=25;
     position_pid.ActualValue=0.0;
     position_pid.SumError=0.0;
     position_pid.Error=0.0;
@@ -156,6 +159,63 @@ void angle_expert_control(float target,float feedback_value){
         else if(angle_error<-20) standard_counterclockwise(15);
     }
 }
+
+void set_move_mode(move_call_back_function function){
+    controlled_move=function;
+}
+
+void set_move(uint8_t mode){
+    if(mode==STRAIGHT) set_move_mode(standard_forward);
+    else if(mode==HORIZONTAL) set_move_mode(standard_right);
+    else if(mode==ROTE) set_move_mode(standard_clockwise);
+}
+
+void universe_pid_control(move_call_back_function move,float feedback_value){
+    if(pid_enable==1){
+        static uint32_t outer_ring_time=0;
+        float speed_control_value=0;
+        /*outer ring*/
+        if(outer_ring_time++%2==0){
+            speed_control_value=pid_update(&position_pid,feedback_value);
+            auto_velocity=(int8_t)(speed_control_value);
+        }
+        /*inner ring*/
+        move(auto_velocity);
+    }
+}
+
+void pid_control(float feedback_value){
+    universe_pid_control(controlled_move,feedback_value);
+}
+
+float pid_update(PID_TypeDef *PID,float feedback_value){
+    /*compute error*/
+    PID->Error=(float)(feedback_value-PID->SetPoint);
+    /*compute deadline*/
+    if((PID->Error>=-POSITION_DEADLINE)&&(PID->Error<=POSITION_DEADLINE)){
+        pid_enable=0;
+        standard_stop();
+        TIM_Cmd(TIM3,DISABLE);
+    } 
+    /*intergral bound*/ 
+    if(PID->Error>POSITION_INTERGRAL_BOUND) PID->Error=POSITION_INTERGRAL_BOUND;
+    if(PID->Error<-POSITION_INTERGRAL_BOUND) PID->Error=-POSITION_INTERGRAL_BOUND;                                           
+    /*compute output*/
+    PID->ActualValue += (PID->Proportion * (PID->Error - PID->LastError))                          
+                        + (PID->Integral * PID->Error)                                             
+                        + (PID->Derivative * (PID->Error - 2 * PID->LastError + PID->PrevError));
+    /*output bound*/ 
+    if(PID->ActualValue>SPEED_UPPER_BOUND) PID->ActualValue=SPEED_UPPER_BOUND;
+    else if(PID->ActualValue<-SPEED_UPPER_BOUND) PID->ActualValue=-SPEED_UPPER_BOUND;
+    else if(0<=PID->ActualValue && PID->ActualValue<SPEED_LOWER_BOUND) PID->ActualValue=SPEED_LOWER_BOUND;
+    else if(-SPEED_LOWER_BOUND<PID->ActualValue && PID->ActualValue<0) PID->ActualValue=-SPEED_LOWER_BOUND;
+    /*update error*/
+    PID->PrevError = PID->LastError;                                       
+    PID->LastError = PID->Error;
+    return PID->ActualValue;
+}
+
+
 
 
 

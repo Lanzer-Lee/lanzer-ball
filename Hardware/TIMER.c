@@ -51,8 +51,10 @@ void TIM2_IRQHandler(void){
 void TIM3_IRQHandler(void){
     if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET){
         TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-        position_pid_control();
-        angle_pid_control();
+        //position_pid_control();
+        //angle_pid_control();
+        if(feedback_value>=0) pid_control(*feedback_value);
+        if(pid_enable) printf("feedback_value=%.1f\r\n",*feedback_value);
         //master_position_control((float)(openmv_structure.x));
     }
 }

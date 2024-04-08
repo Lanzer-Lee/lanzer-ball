@@ -5,6 +5,7 @@
 #include "Serial.h"
 #include "control.h"
 #include "TIMER.h"
+#include "openmv.h"
 #include <string.h>
 #include <stdio.h>
 

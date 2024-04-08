@@ -33,9 +33,15 @@ void control_enable(void){
 		angle_pid_enable=0;
 		angle_expert_enable=0;
 		position_expert_enable=0;
+		pid_enable=0;
 		pid_init();
 		return;
 	}
+	else if(strcmp(Serial_RxPacket_USART1,"$laser!")==0) laser_distance_control(25.0);
+	else if(strcmp(Serial_RxPacket_USART1,"$bucketx!")==0) find_bucket(60.0,HORIZONTAL);
+	else if(strcmp(Serial_RxPacket_USART1,"$bucketz!")==0) find_bucket(60.0,ROTE);
+	else if(strcmp(Serial_RxPacket_USART1,"$ballx!")==0) find_ball(60.0,HORIZONTAL);
+	else if(strcmp(Serial_RxPacket_USART1,"$ballz!")==0) find_ball(60.0,ROTE);
 	else if(strcmp(Serial_RxPacket_USART1,"$position_pid!")==0){
 		position_pid_enable=1;
 	} 
@@ -48,6 +54,15 @@ void control_enable(void){
 	else if(strcmp(Serial_RxPacket_USART1,"$angle_pid!")==0){
 		angle_pid_enable=1;
 	} 
+	else if(strcmp(Serial_RxPacket_USART1,"$openmv0!")==0){
+		openmv_state_transfer(0);
+	}
+	else if(strcmp(Serial_RxPacket_USART1,"$openmv1!")==0){
+		openmv_state_transfer(1);
+	}
+	else if(strcmp(Serial_RxPacket_USART1,"$openmv2!")==0){
+		openmv_state_transfer(2);
+	}
 	/*
 	else if(strcmp(Serial_RxPacket_USART1,"angle_master")==0){
 		angle_master_enable=1;
