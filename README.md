@@ -16,4 +16,6 @@ Add ultrasonic and IMU
 Add anti-windup, closed loop restricted area, upper bound to incremental PID control
 
 Add expert control
+## v2.3
+Add finding mark bucket, add control API between stm32 and openmv
 
