@@ -61,42 +61,42 @@ static const uint8_t __auchCRCLo[256] = {
     0x40
 };
 
-IMU_TypeDef IMU_Structure;
-float init_angle_z=0.0;
+IMU_TypeDef imu;
 
-void IMU_Init(void){
+void IMU_Init(IMU_TypeDef *IMU){
+    uint8_t i=0;
     WitInit(WIT_PROTOCOL_I2C,0x50);
-    WitI2cFuncRegister(IICwriteBytes,IICreadBytes);
+    WitI2cFuncRegister(I2CwriteBytes,I2CreadBytes);
     WitRegisterCallBack(CopeSensorData);
     WitDelayMsRegister(Delayms);
     AutoScanSensor();
     Delay_ms(500);
-    init_angle_z=0.0;
-    IMU_Structure.accelerate[0]=0;
-    IMU_Structure.accelerate[1]=0;
-    IMU_Structure.accelerate[2]=0;
-    IMU_Structure.angle[0]=0;
-    IMU_Structure.angle[1]=0;
-    IMU_Structure.angle[2]=0;
-    IMU_Structure.gyro[0]=0;
-    IMU_Structure.gyro[1]=0;
-    IMU_Structure.gyro[2]=0;
-    IMU_Data_Process();
-    init_angle_z=IMU_Structure.angle[2];
+    for(i=0;i<3;i++){
+        IMU->Accelerate[i]=0;
+        IMU->Angle[i]=0;
+        IMU->Gyro[0]=0;
+    }
+    IMU->InitAzimuth=0;
+    IMU->Azimuth=0;
+    IMU_Data_Process(IMU);
+    IMU->InitAzimuth=IMU->Azimuth;
 }
 
-void IMU_Data_Process(void){
+void IMU_Data_Process(IMU_TypeDef *IMU){
     uint8_t i=0;
     WitReadReg(AX,12);
     Delay_ms(500);
     CmdProcess();
     if(s_cDataUpdate){
         for(i=0;i<3;i++){
-            IMU_Structure.accelerate[i]=sReg[AX+i]/32768.0f*16.0f;
-            IMU_Structure.gyro[i]=sReg[GX+i]/32768.0f*2000.0f;
-            IMU_Structure.angle[i]=sReg[Roll+i]/32768.0f*180.0f;
+            IMU->Accelerate[i]=sReg[AX+i]/32768.0f*16.0f;
+            IMU->Gyro[i]=sReg[GX+i]/32768.0f*2000.0f;
+            IMU->Angle[i]=sReg[Roll+i]/32768.0f*180.0f;
         }
-        IMU_Structure.angle[2]-=init_angle_z;
+        IMU->Azimuth=IMU->Angle[2]-IMU->InitAzimuth;
+        while(IMU->Azimuth>180) IMU->Azimuth-=360;
+        while(IMU->Azimuth<-180) IMU->Azimuth+=360;
+        //IMU->Azimuth=IMU->Azimuth/180*PI;
         if (s_cDataUpdate & ACC_UPDATE){
 			//printf("acc:%.3f %.3f %.3f\r\n", IMU_Structure.accelerate[0], IMU_Structure.accelerate[1], IMU_Structure.accelerate[2]);
 			s_cDataUpdate &= ~ACC_UPDATE;

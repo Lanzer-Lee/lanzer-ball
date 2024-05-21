@@ -30,16 +30,3 @@
 .\objects\valve.o: .\Library\stm32f10x_wwdg.h
 .\objects\valve.o: .\Library\misc.h
 .\objects\valve.o: .\System\Delay.h
-.\objects\valve.o: Hardware\Serial.h
-.\objects\valve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\valve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\valve.o: Hardware\servo.h
-.\objects\valve.o: Hardware\Serial.h
-.\objects\valve.o: Hardware\motor.h
-.\objects\valve.o: Hardware\IIC.h
-.\objects\valve.o: .\System\sys.h
-.\objects\valve.o: .\Control\control.h
-.\objects\valve.o: .\Hardware\openmv.h
-.\objects\valve.o: .\Hardware\IMU.h
-.\objects\valve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\valve.o: .\Hardware\REG.h

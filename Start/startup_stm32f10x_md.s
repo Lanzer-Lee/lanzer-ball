@@ -116,6 +116,7 @@ __Vectors       DCD     __initial_sp               ; Top of Stack
                 DCD     USART1_IRQHandler          ; USART1
                 DCD     USART2_IRQHandler          ; USART2
                 DCD     USART3_IRQHandler          ; USART3
+                DCD     UART4_IRQHandler           ; UART4
                 DCD     EXTI15_10_IRQHandler       ; EXTI Line 15..10
                 DCD     RTCAlarm_IRQHandler        ; RTC Alarm through EXTI Line
                 DCD     USBWakeUp_IRQHandler       ; USB Wakeup from suspend
@@ -222,6 +223,7 @@ Default_Handler PROC
                 EXPORT  USART1_IRQHandler          [WEAK]
                 EXPORT  USART2_IRQHandler          [WEAK]
                 EXPORT  USART3_IRQHandler          [WEAK]
+                EXPORT  UART4_IRQHandler           [WEAK]
                 EXPORT  EXTI15_10_IRQHandler       [WEAK]
                 EXPORT  RTCAlarm_IRQHandler        [WEAK]
                 EXPORT  USBWakeUp_IRQHandler       [WEAK]
@@ -266,6 +268,7 @@ SPI2_IRQHandler
 USART1_IRQHandler
 USART2_IRQHandler
 USART3_IRQHandler
+UART4_IRQHandler
 EXTI15_10_IRQHandler
 RTCAlarm_IRQHandler
 USBWakeUp_IRQHandler

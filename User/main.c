@@ -1,35 +1,59 @@
 #include "stm32f10x.h"                
 #include "Delay.h"
-#include "motor.h"
-#include "Serial.h"
-#include "openmv.h"
-#include "TIMER.h"
-#include "control.h"
-#include "echo.h"
-#include "IMU.h"
 #include "IIC.h"
+#include "motor.h"
+#include "attitude.h"
+#include "series.h"
+#include "Serial.h"
+#include "GAME.h"
 #include "debug.h"
-
-uint8_t demo_status=0;
+#include "TIMER.h"
+#include "valve.h"
+#include "TOF.h"
+#include "servo.h"
+#include "openmv.h"
+#include "pid.h"
+#include "Key.h"
+#include "IMU.h"
+#include "I2C.h"
+#include "echo.h"
+#include "Expert.h"
+#include "power.h"
+#include "Fusion.h"
+#include "OLED.h"
 
 void set_up(void){
-	Serial_USARTx_Init();
+	SystemInit();
+	Power_Init();
+	Delay_Init();
 	IIC_Init();
+	//I2C_IMU_Init();
+	Serial_USARTx_Init();
+	Motor_Init(&motor);
+	valve_init();
+	TOF_Init(&tof);
+	IMU_Init(&imu);
+	servo_init(&servo);
+	openmv_init(&cv);
+	attitude_init(&robot);
+	series_init(&series);
+	game_init(&game);
+	debug_init(&data);
 	TIM_Init();
-	pid_init();
+	pid_init(&pid);
+	Expert_Init(&expert);
+	Fusion_Init(&fusion);
+	KEY_Init();
+	EXTIX_Init();
 	echo_init();
-	IMU_Init();
-	set_servo_angle(1,200,2000);
-	Delay_ms(1000);	
+	OLED_Init();
+	Motor_Stop(&motor);
 }
 
 int main(void)
 {
 	set_up();
-	set_move(STRAIGHT);
-	openmv_state_transfer(0);
-	while (1){					
-		debug_command_process();
-		openmv_analysis();		
+	while (1){				
+		game_play(&game);
 	}
 }

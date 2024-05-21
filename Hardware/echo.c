@@ -1,22 +1,21 @@
 #include "echo.h"
 
-float echo_distance=0.0;
+__IO float echo_diatance=0.0;
 
-void echo_init(void)
-{
+void echo_init(void){
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;  // Trig����
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; 
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;  // Echo����
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; 
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
-float measure_distance(void){
+float echo_measure_distance(void){
     float pulse_width = 0.0;
 	while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_7)==1){} 
     GPIO_SetBits(GPIOA, GPIO_Pin_6);    
@@ -28,5 +27,17 @@ float measure_distance(void){
     while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_7)){}
     TIM_Cmd(TIM2, DISABLE);
     pulse_width = TIM_GetCounter (TIM2);
-    return pulse_width * 0.034 / 2.0;
+    return pulse_width * 0.017;
+}
+
+void echo_aim_ball(void){
+    echo_diatance=echo_measure_distance();
+    Motor_Straight(TACKLE_SPEED);
+    while(1){
+        if(echo_diatance<TACKLE_DISTANCE){
+            Motor_Stop(&motor);
+            return;
+        }
+        echo_diatance=echo_measure_distance();
+    }
 }

@@ -1,73 +1,87 @@
 #include "debug.h"
 
-float debug_Kp=0,debug_Ki=0,debug_Kd=0;
+Debug_TypeDef data;
 
-void debug_command_process(void){
-    //uint8_t i=0;
-	if(Serial_RxFlag_USART1==1){
-		if(Serial_RxPacket_USART1[0]=='$'){
-			control_enable();
-			if(strcmp(Serial_RxPacket_USART1,"$IMU!")==0){
-				IMU_Data_Process();	
-				printf("IMU=%f\r\n",IMU_Structure.angle[2]);
-			}
-            else if(Serial_RxPacket_USART1[1]=='('){
-				sscanf(Serial_RxPacket_USART1,"$(%f,%f,%f)!",&debug_Kp,&debug_Ki,&debug_Kd);
-				printf("Kp=%.2f,Ki=%.2f,Kd=%.2f\r\n",debug_Kp,debug_Ki,debug_Kd);
-				set_pid_parameter(&position_pid,debug_Kp,debug_Ki,debug_Kd);
-            }
-			Serial_SendString(USART1,Serial_RxPacket_USART1);
-		}
-		if(Serial_RxPacket_USART1[0]=='@'||Serial_RxPacket_USART1[0]=='#'){
-			Serial_SendString(USART1,Serial_RxPacket_USART1);
-			Serial_SendString(USART3,Serial_RxPacket_USART1);
-		}
-		Serial_RxFlag_USART1=0;
-	}	
+void debug_init(Debug_TypeDef *Data){
+    uint8_t i=0;
+    Data->Identifier=0;
+    for(i=0;i<INTEGER_NUM;i++) Data->Data_int[i]=0;
+    for(i=0;i<FLOAT_NUM;i++) Data->Data_float[i]=0.0;
 }
 
-void control_enable(void){
-	if(Serial_RxPacket_USART1[1]=='0'){
-		TIM_Cmd(TIM3,DISABLE);
-		position_pid_enable=0;
-		angle_pid_enable=0;
-		angle_expert_enable=0;
-		position_expert_enable=0;
-		pid_enable=0;
-		pid_init();
-		return;
-	}
-	else if(strcmp(Serial_RxPacket_USART1,"$laser!")==0) laser_distance_control(25.0);
-	else if(strcmp(Serial_RxPacket_USART1,"$bucketx!")==0) find_bucket(60.0,HORIZONTAL);
-	else if(strcmp(Serial_RxPacket_USART1,"$bucketz!")==0) find_bucket(60.0,ROTE);
-	else if(strcmp(Serial_RxPacket_USART1,"$ballx!")==0) find_ball(60.0,HORIZONTAL);
-	else if(strcmp(Serial_RxPacket_USART1,"$ballz!")==0) find_ball(60.0,ROTE);
-	else if(strcmp(Serial_RxPacket_USART1,"$position_pid!")==0){
-		position_pid_enable=1;
-	} 
-	/*
-	else if(strcmp(Serial_RxPacket_USART1,"position_master")==0){
-		position_master_enable=1;
-		control_call_back=master_position_control;
-	} 
-	*/
-	else if(strcmp(Serial_RxPacket_USART1,"$angle_pid!")==0){
-		angle_pid_enable=1;
-	} 
-	else if(strcmp(Serial_RxPacket_USART1,"$openmv0!")==0){
-		openmv_state_transfer(0);
-	}
-	else if(strcmp(Serial_RxPacket_USART1,"$openmv1!")==0){
-		openmv_state_transfer(1);
-	}
-	else if(strcmp(Serial_RxPacket_USART1,"$openmv2!")==0){
-		openmv_state_transfer(2);
-	}
-	/*
-	else if(strcmp(Serial_RxPacket_USART1,"angle_master")==0){
-		angle_master_enable=1;
-		control_call_back=master_angle_control;
-	} 
-	*/
-	TIM_Cmd(TIM3,ENABLE);
+void debug_analysis(Debug_TypeDef *Data){
+    if(Serial_RxFlag_USART1==1){
+        switch (Serial_RxPacket_USART1[1]){
+            case GAME_DEBUG:
+                game.Round=Serial_RxPacket_USART1[2]-'0';
+                game.State=GAME_STATE0;
+                break;
+            case MOTOR_DENUG:
+                sscanf(Serial_RxPacket_USART1,"(M,%d,%d,%d,%d)",&Data->Data_int[0],&Data->Data_int[1],&Data->Data_int[2],&Data->Data_int[3]);
+                Motor_SetVelocity(&motor,(int8_t)(Data->Data_int[0]),(int8_t)(Data->Data_int[1]),(int8_t)(Data->Data_int[2]),(int8_t)(Data->Data_int[3]));
+                break;
+            case ATTITUDE_DEBUG:
+                attitude_algorithm(&robot);
+                printf("x=%.1f,y=%.1f,angle=%.1f\r\n",robot.x,robot.y,robot.angle);
+                printf("encoder=%d,%d,%d,%d\r\n",motor.Encoder[0],motor.Encoder[1],motor.Encoder[2],motor.Encoder[3]);
+                Motor_ReadVoltage(&motor);
+                printf("voltage=%d\r\n",motor.Voltage);
+                break;
+            case SERIES_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(C,%f,%d,%d)",&Data->Data_float[0],&Data->Data_int[0],&Data->Data_int[1]);
+                series_set(&series,Data->Data_float[0],(uint8_t)(Data->Data_int[0]),(uint8_t)(Data->Data_int[1]));
+                series_control(&series);
+                break;
+            case VALVE_DUBUG:
+                sscanf(Serial_RxPacket_USART1,"(V,%d)",&Data->Data_int[0]);
+                valve_hit((uint16_t)(Data->Data_int[0]));
+                break;
+            case TOF_DEBUG:
+                //TOF_GetData(&tof);
+                printf("d=%.1f,e=%d,n=%d\r\n",tof.Distance,tof.Energy,tof.Noise);
+                break;
+            case OPENMV_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(O,%d)",&Data->Data_int[0]);
+                openmv_set(&cv,(uint8_t)(Data->Data_int[0]));
+                printf("x=%.1f,y=%.1f,d=%.1f,k=%.1f\r\n",cv.X,cv.Y,cv.Distance,cv.Slope);
+                break;
+            case SERVO_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(S,%d,%d,%d)",&Data->Data_int[0],&Data->Data_int[1],&Data->Data_int[2]);
+                servo.ID=(uint8_t)(Data->Data_int[0]);
+                servo.Angle=(uint16_t)(Data->Data_int[1]);
+                servo.Time=(uint16_t)(Data->Data_int[2]);
+                servo_control(&servo);
+                break;
+            case PID_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(P,%f,%f,%f,%f,%d)",&Data->Data_float[0],&Data->Data_float[1],&Data->Data_float[2],&Data->Data_float[3],&Data->Data_int[0]);
+                pid_set_parameter(&pid,Data->Data_float[0],Data->Data_float[1],Data->Data_float[2]);
+                pid_set(&pid,Data->Data_float[3],(uint8_t)(Data->Data_int[0]));
+                pid_enable(&pid);
+                break;
+            case FUSION_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(F,%d,%d,%d,%d)",&Data->Data_int[0],&Data->Data_int[1],&Data->Data_int[2],&Data->Data_int[3]);
+                Fusion_Set(&fusion,(uint16_t)(Data->Data_int[0]),(uint16_t)(Data->Data_int[1]),(uint8_t)(Data->Data_int[2]),(int8_t)(Data->Data_int[3]));
+                printf("fusion set:%d,%d\r\n",fusion.LowerBound,fusion.UpperBound);
+                Fusion_FindBall(&fusion);
+                break;
+            case IMU_DEBUG:
+                IMU_Data_Process(&imu);
+                printf("azimuth=%.3f\r\n",imu.Azimuth);
+                printf("angle=%.1f,%.1f,%.1f\r\n",imu.Angle[0],imu.Angle[1],imu.Angle[2]);
+                break;
+            case ECHO_DEBUG:
+                echo_diatance=echo_measure_distance();
+                printf("echo=%.2f",echo_diatance);
+                break;
+            case POWER_DEBUG:
+                sscanf(Serial_RxPacket_USART1,"(Q,%d)",&Data->Data_int[0]);
+                if(Data->Data_int[0]==0) Power_Set(DISABLE);
+                else Power_Set(ENABLE);
+                break;
+            default:break;
+        }
+        printf(Serial_RxPacket_USART1);
+        printf("\r\n");
+        Serial_RxFlag_USART1=0;
+    }
 }

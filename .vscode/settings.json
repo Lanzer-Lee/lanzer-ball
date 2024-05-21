@@ -7,6 +7,15 @@
         "control.h": "c",
         "timer.h": "c",
         "motor.h": "c",
-        "echo.h": "c"
+        "echo.h": "c",
+        "openmv.h": "c",
+        "attitude.h": "c",
+        "stm32f10x.h": "c",
+        "stdio.h": "c",
+        "stdarg.h": "c",
+        "reg.h": "c",
+        "pid.h": "c",
+        "series.h": "c",
+        "key.h": "c"
     }
 }

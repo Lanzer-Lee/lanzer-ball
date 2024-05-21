@@ -52,7 +52,7 @@
           <OutputName>Project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -384,11 +384,6 @@
           <GroupName>Start</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f10x_md.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Start\startup_stm32f10x_md.s</FilePath>
-            </File>
-            <File>
               <FileName>core_cm3.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Start\core_cm3.c</FilePath>
@@ -412,6 +407,11 @@
               <FileName>system_stm32f10x.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Start\system_stm32f10x.h</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f10x_hd.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Start\startup_stm32f10x_hd.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -793,6 +793,41 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\TOF.h</FilePath>
             </File>
+            <File>
+              <FileName>I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\I2C.h</FilePath>
+            </File>
+            <File>
+              <FileName>power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\power.c</FilePath>
+            </File>
+            <File>
+              <FileName>power.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\power.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\OLED.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Font.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\OLED_Font.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -834,14 +869,64 @@
           <GroupName>Control</GroupName>
           <Files>
             <File>
-              <FileName>control.c</FileName>
+              <FileName>GAME.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Control\control.c</FilePath>
+              <FilePath>.\Control\GAME.c</FilePath>
             </File>
             <File>
-              <FileName>control.h</FileName>
+              <FileName>GAME.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Control\control.h</FilePath>
+              <FilePath>.\Control\GAME.h</FilePath>
+            </File>
+            <File>
+              <FileName>attitude.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\attitude.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\attitude.h</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>series.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\series.c</FilePath>
+            </File>
+            <File>
+              <FileName>series.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\series.h</FilePath>
+            </File>
+            <File>
+              <FileName>Expert.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\Expert.c</FilePath>
+            </File>
+            <File>
+              <FileName>Expert.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\Expert.h</FilePath>
+            </File>
+            <File>
+              <FileName>Fusion.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Control\Fusion.c</FilePath>
+            </File>
+            <File>
+              <FileName>Fusion.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Control\Fusion.h</FilePath>
             </File>
           </Files>
         </Group>
